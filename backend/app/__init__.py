@@ -1,0 +1,1 @@
+"""Continuity backend application."""
