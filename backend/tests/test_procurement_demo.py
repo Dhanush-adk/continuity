@@ -26,7 +26,7 @@ def test_procurement_demo_seeds_expected_version_evidence() -> None:
     engine.dispose()
 
 
-def test_procurement_demo_runs_all_day_three_authorization_scenarios() -> None:
+def test_procurement_demo_runs_allow_deny_and_review_scenarios() -> None:
     engine = create_engine("sqlite://")
     Base.metadata.create_all(engine)
     with Session(engine) as session:

@@ -36,7 +36,11 @@ Agent version + capability trust + mandate + organization policy
 
 The LLM extracts a structured candidate mandate only. It never decides whether
 an action is allowed. Explicit activation and deterministic code remain the
-authorization boundary.
+authorization boundary. `DENY` takes precedence over `REVIEW`, then `ALLOW`.
+
+Gemini is an optional structured-intent extractor. Set
+`INTENT_EXTRACTOR=gemini` with `GEMINI_API_KEY` to use Gemini 3.5 Flash-Lite;
+the default `mock` extractor supports offline development and all tests.
 
 ### Provider output and canonicalization
 
@@ -65,6 +69,30 @@ The Next.js dashboard makes the Acme procurement flow understandable quickly:
 Run the seed, then open `http://localhost:3000` for the dashboard, version
 continuity view, decision feed, snapshot-based audit pages, and a minimal
 human `APPROVE` / `DENY` interaction for a `REVIEW` record.
+
+### Live demo
+
+<img src="docs/images/demo.gif" alt="Continuity demo — mandate creation, authorization feed, ALLOW / DENY / REVIEW audit, and human approval" width="800">
+
+### Dashboard
+
+<img src="docs/images/dashboard.png" alt="Dashboard overview" width="800">
+
+### Version continuity — v1.0.0 → v1.1.0
+
+<img src="docs/images/version-continuity.png" alt="Version continuity" width="800">
+
+### ALLOW decision audit
+
+<img src="docs/images/allow-decision.png" alt="ALLOW decision" width="800">
+
+### DENY decision audit
+
+<img src="docs/images/deny-decision.png" alt="DENY decision" width="800">
+
+### REVIEW decision audit
+
+<img src="docs/images/review-decision.png" alt="REVIEW decision" width="800">
 
 ## Architecture
 
@@ -155,20 +183,6 @@ For example, `payment.execute` moving from `$15,000` to `$100,000` is restricted
 to its inherited `$15,000` trust envelope. A new `bank.transfer` capability is
 untrusted until explicitly reauthorized with a supplied envelope.
 
-## Runtime authorization and intent extraction
-
-```text
-Human request → intent extractor → draft mandate → explicit activation
-→ proposed agent action → deterministic authorization → ALLOW / REVIEW / DENY
-```
-
-Gemini is only an optional structured-intent extractor. It is never asked to
-authorize an action and never makes a security decision. Set
-`INTENT_EXTRACTOR=gemini` with `GEMINI_API_KEY` to use Gemini 3.6 Flash-Lite;
-the default `mock` extractor supports offline development and all tests.
-Candidate mandates remain `DRAFT` until activation makes them the deterministic
-authorization input. `DENY` takes precedence over `REVIEW`, then `ALLOW`.
-
 ## Procurement demo
 
 After migrations, run `cd backend && .venv/bin/python -m scripts.seed_procurement_demo`.
@@ -191,3 +205,7 @@ behavioral ML, transaction execution, payment integrations, a policy DSL, and
 enterprise approval workflows. Human review is a deliberately minimal,
 prototype-only audit interaction. See
 [ARCHITECTURE.md](docs/ARCHITECTURE.md) for the design and threat model.
+
+## License
+
+[MIT](LICENSE)

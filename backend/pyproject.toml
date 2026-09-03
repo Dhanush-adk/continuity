@@ -2,6 +2,8 @@
 name = "continuity-backend"
 version = "0.1.0"
 description = "Runtime authorization identity service for autonomous AI agents"
+license = "MIT"
+authors = [{ name = "Dhanush Kumar Antharam" }]
 requires-python = ">=3.12"
 dependencies = [
   "alembic>=1.14,<2.0",
